@@ -107,4 +107,18 @@ public class DrawingManager : MonoBehaviour
     {
         return texture;
     }
+
+    public void SetCanvasOrientation(bool isPortrait)
+    {
+        RectTransform rt = drawingCanvas.rectTransform;
+        if (isPortrait)
+        {
+            rt.sizeDelta = new Vector2(600, 800); // Portrait size
+        }
+        else
+        {
+            rt.sizeDelta = new Vector2(1700, 850); // Landscape size
+        }
+        InitializeTexture(); // Reinitialize texture with new size
+    }
 }

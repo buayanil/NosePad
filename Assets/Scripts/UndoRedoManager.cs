@@ -45,19 +45,4 @@ public class UndoRedoManager : MonoBehaviour
             Debug.LogWarning("Nothing to undo");
         }
     }
-
-    public void Redo()
-    {
-        if (redoStack.Count > 0)
-        {
-            undoStack.Push((Color[])drawingManager.GetTexture().GetPixels().Clone());
-            drawingManager.GetTexture().SetPixels(redoStack.Pop());
-            drawingManager.GetTexture().Apply();
-            Debug.Log("Redo Performed");
-        }
-        else
-        {
-            Debug.LogWarning("Nothing to redo");
-        }
-    }
 }

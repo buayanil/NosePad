@@ -10,19 +10,19 @@ public class UIManager : MonoBehaviour
     public Toggle eraserToggle;
     public Button saveButton;
     public Button undoButton;
-    public Button redoButton;
     public Button colorButton1;
     public Button colorButton2;
     public Button colorButton3;
     public Button colorButton4;
     public TMP_Dropdown brushSizeDropdown;
+    public Button toggleOrientationButton;
+    private bool isPortrait = false;
 
     void Start()
     {
         eraserToggle.onValueChanged.AddListener(drawingManager.ToggleEraser);
         saveButton.onClick.AddListener(SaveDrawing);
         undoButton.onClick.AddListener(undoRedoManager.Undo);
-        redoButton.onClick.AddListener(undoRedoManager.Redo);
 
         colorButton1.onClick.AddListener(() => drawingManager.ChangeBrushColor(Color.red));
         colorButton2.onClick.AddListener(() => drawingManager.ChangeBrushColor(Color.green));
@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
         colorButton4.onClick.AddListener(() => drawingManager.ChangeBrushColor(Color.black));
 
         brushSizeDropdown.onValueChanged.AddListener(ChangeBrushSize);
+        toggleOrientationButton.onClick.AddListener(ToggleCanvasOrientation);
     }
 
      void ChangeBrushSize(int index)
@@ -49,6 +50,13 @@ public class UIManager : MonoBehaviour
                 break;
         }
         drawingManager.ChangeBrushSize(size);
+    }
+
+    void ToggleCanvasOrientation()
+    {
+        isPortrait = !isPortrait;
+        drawingManager.SetCanvasOrientation(isPortrait);
+        toggleOrientationButton.GetComponentInChildren<TextMeshProUGUI>().text = isPortrait ? "Landscape" : "Portrait";
     }
 
     void SaveDrawing()
