@@ -14,6 +14,10 @@ public class UIManager : MonoBehaviour
     public Button colorButton2;
     public Button colorButton3;
     public Button colorButton4;
+    public Button colorButton5;
+    public Button colorButton6;
+    public Button colorButton7;
+    public Button colorButton8;
     public TMP_Dropdown brushSizeDropdown;
     public Button toggleOrientationButton;
     private bool isPortrait = false;
@@ -28,6 +32,10 @@ public class UIManager : MonoBehaviour
         colorButton2.onClick.AddListener(() => drawingManager.ChangeBrushColor(Color.green));
         colorButton3.onClick.AddListener(() => drawingManager.ChangeBrushColor(Color.blue));
         colorButton4.onClick.AddListener(() => drawingManager.ChangeBrushColor(Color.black));
+        colorButton5.onClick.AddListener(() => drawingManager.ChangeBrushColor(Color.grey));
+        colorButton6.onClick.AddListener(() => drawingManager.ChangeBrushColor(Color.magenta));
+        colorButton7.onClick.AddListener(() => drawingManager.ChangeBrushColor(Color.cyan));
+        colorButton8.onClick.AddListener(() => drawingManager.ChangeBrushColor(Color.yellow));
 
         brushSizeDropdown.onValueChanged.AddListener(ChangeBrushSize);
         toggleOrientationButton.onClick.AddListener(ToggleCanvasOrientation);
