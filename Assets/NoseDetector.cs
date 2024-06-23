@@ -19,6 +19,8 @@ public class NoseAndSmileDetector : MonoBehaviour
     float movementThreshold = 50.0f;
     float cooldownTime = 1.0f;
     float lastClickTime;
+    public bool isSmiling = false;
+    public Vector2 noseCursorPosition;
 
     void Start()
     {
@@ -90,8 +92,8 @@ public class NoseAndSmileDetector : MonoBehaviour
                 }
 
                 // Use the nose points for cursor tracking
-                Vector2 noseCursorPosition = new Vector2(myNose.X + myNose.Width / 2, myNose.Y + myNose.Height / 2);
-                // Implement the cursor movement with the nose here, e.g., drawing logic
+                noseCursorPosition = new Vector2(myNose.X + myNose.Width / 2, myNose.Y + myNose.Height / 2);
+                Debug.Log("Nose Cursor Position: " + noseCursorPosition);
 
                 if (!initialNosePointsSet)
                 {
@@ -104,12 +106,15 @@ public class NoseAndSmileDetector : MonoBehaviour
                 myNose = OpenCvSharp.Rect.Empty;
             }
 
+            isSmiling = false;
             foreach (var smile in smiles)
             {
+                Debug.Log($"Smile detected at ({smile.X}, {smile.Y}) with size ({smile.Width}x{smile.Height})");
                 if (smile.Width > myFace.Width / 3 && smile.Height > myFace.Height / 4 && Time.time >= lastClickTime + cooldownTime)
                 {
                     Debug.Log("Smile detected! Click entered!");
                     lastClickTime = Time.time;
+                    isSmiling = true;
                     break; // Exit the loop after the first valid smile detection
                 }
             }
@@ -175,5 +180,15 @@ public class NoseAndSmileDetector : MonoBehaviour
 
         Texture newTexture = OpenCvSharp.Unity.MatToTexture(frame);
         GetComponent<Renderer>().material.mainTexture = newTexture;
+    }
+
+    public Vector2 GetNosePosition()
+    {
+        return noseCursorPosition;
+    }
+
+    public bool IsSmiling()
+    {
+        return isSmiling;
     }
 }
