@@ -21,6 +21,7 @@ public class NoseAndSmileDetector : MonoBehaviour
     float lastClickTime;
     public bool isSmiling = false;
     public Vector2 noseCursorPosition;
+    public SpeechRecognitionTest speechRecognitionTest; // Reference to the SpeechRecognitionTest script
 
     void Start()
     {
@@ -51,6 +52,15 @@ public class NoseAndSmileDetector : MonoBehaviour
         }
 
         lastClickTime = Time.time - cooldownTime; // Initialize to allow immediate first click
+
+        if (speechRecognitionTest == null)
+        {
+            Debug.LogError("SpeechRecognitionTest reference is not set.");
+        }
+        else
+        {
+            Debug.Log("SpeechRecognitionTest reference is set.");
+        }
     }
 
     void Update()
@@ -112,9 +122,18 @@ public class NoseAndSmileDetector : MonoBehaviour
                 Debug.Log($"Smile detected at ({smile.X}, {smile.Y}) with size ({smile.Width}x{smile.Height})");
                 if (smile.Width > myFace.Width / 3 && smile.Height > myFace.Height / 4 && Time.time >= lastClickTime + cooldownTime)
                 {
-                    Debug.Log("Smile detected! Click entered!");
+                    Debug.Log("Smile detected! Triggering speech recognition.");
                     lastClickTime = Time.time;
                     isSmiling = true;
+
+                    if (speechRecognitionTest != null)
+                    {
+                        speechRecognitionTest.StartRecording(); // Start recording when a smile is detected
+                    }
+                    else
+                    {
+                        Debug.LogError("SpeechRecognitionTest reference is not set.");
+                    }
                     break; // Exit the loop after the first valid smile detection
                 }
             }
