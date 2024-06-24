@@ -648,12 +648,16 @@ MonoBehaviour:
   eraserToggle: {fileID: 0}
   saveButton: {fileID: 0}
   undoButton: {fileID: 0}
-  redoButton: {fileID: 0}
   colorButton1: {fileID: 0}
   colorButton2: {fileID: 0}
   colorButton3: {fileID: 0}
   colorButton4: {fileID: 0}
+  colorButton5: {fileID: 0}
+  colorButton6: {fileID: 0}
+  colorButton7: {fileID: 0}
+  colorButton8: {fileID: 0}
   brushSizeDropdown: {fileID: 0}
+  toggleOrientationButton: {fileID: 0}
 --- !u!1 &180470610
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,7 +1155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6179246, g: 0.7379821, b: 1, a: 0.4392157}
+  m_Color: {r: 0.41509432, g: 0.39469096, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1203,14 +1207,14 @@ RectTransform:
   m_GameObject: {fileID: 879350968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12.712432, y: 12.712432, z: 12.712432}
+  m_LocalScale: {x: 26.537203, y: 14.619296, z: 12.712432}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1748821365}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 274, y: 80}
+  m_AnchoredPosition: {x: 65, y: 117}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &879350970
@@ -1233,7 +1237,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1c19022af027e4469a90b40f4056ba01, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31eaee27b75b7483c8796b1724d3a82a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
