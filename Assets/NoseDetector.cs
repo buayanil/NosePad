@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using OpenCvSharp;
 using System.IO;
+using UnityEngine.UI;
 
 public class NoseAndSmileDetector : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class NoseAndSmileDetector : MonoBehaviour
     public bool isSmiling = false;
     public Vector2 noseCursorPosition;
     public SpeechRecognitionTest speechRecognitionTest; // Reference to the SpeechRecognitionTest script
+    public Image noseCursorImage; // Reference to the UI image representing the cursor
 
     void Start()
     {
@@ -104,6 +106,12 @@ public class NoseAndSmileDetector : MonoBehaviour
                 // Use the nose points for cursor tracking
                 noseCursorPosition = new Vector2(myNose.X + myNose.Width / 2, myNose.Y + myNose.Height / 2);
                 Debug.Log("Nose Cursor Position: " + noseCursorPosition);
+
+                if (noseCursorImage != null)
+                {
+                    Vector2 screenPos = new Vector2(Screen.width - noseCursorPosition.x, Screen.height - noseCursorPosition.y);
+                    noseCursorImage.rectTransform.position = screenPos;
+                }
 
                 if (!initialNosePointsSet)
                 {

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,8 @@ public class DrawingManager : MonoBehaviour
     private bool isErasing = false;
     private UndoRedoManager undoRedoManager;
     public NoseAndSmileDetector noseAndSmileDetector; // Reference to the NoseAndSmileDetector
+    public Image cursorImage; // Reference to the cursor image
+    public Boolean s = false;
 
     void Start()
     {
@@ -19,6 +22,12 @@ public class DrawingManager : MonoBehaviour
         if (undoRedoManager != null)
         {
             undoRedoManager.SaveInitialState(texture);
+        }
+
+        // Ensure cursor image is visible at the start
+        if (cursorImage != null)
+        {
+            cursorImage.enabled = true;
         }
     }
 
@@ -40,8 +49,19 @@ public class DrawingManager : MonoBehaviour
 
     void Update()
     {
-        DrawWithNose();
+       if (s == true)
+        { 
+           
+            DrawWithNose();
+
+        }
+
+
+        UpdateCursorPosition();
     }
+
+
+
 
     void DrawWithNose()
     {
@@ -86,6 +106,19 @@ public class DrawingManager : MonoBehaviour
         texture.Apply();
     }
 
+    void UpdateCursorPosition()
+    {
+        if (noseAndSmileDetector == null || cursorImage == null)
+        {
+            return;
+        }
+
+        Vector2 nosePosition = noseAndSmileDetector.GetNosePosition();
+        Vector2 screenPos = new Vector2(nosePosition.x, Screen.height - nosePosition.y); // Invert Y for correct screen coordinates
+
+        cursorImage.rectTransform.position = screenPos;
+    }
+
     public void ToggleEraser(bool erasing)
     {
         isErasing = erasing;
@@ -119,5 +152,17 @@ public class DrawingManager : MonoBehaviour
             rt.sizeDelta = new Vector2(1700, 850); // Landscape size
         }
         InitializeTexture(); // Reinitialize texture with new size
+    }
+
+
+
+     
+    public void setToggle()
+    {
+        s = true;
+    }
+    public void setToggletofalse()
+    {
+        s = false;
     }
 }
