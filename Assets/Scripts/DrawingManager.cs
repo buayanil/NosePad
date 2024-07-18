@@ -50,8 +50,8 @@ public class DrawingManager : MonoBehaviour
     void Update()
     {
        if (s == true)
-        { 
-           
+        {
+
             DrawWithNose();
 
         }
@@ -156,7 +156,7 @@ public class DrawingManager : MonoBehaviour
 
 
 
-     
+
     public void setToggle()
     {
         s = true;
