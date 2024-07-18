@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Windows.Speech;
 using System.Linq;
 using System;
-
+using UnityEngine.UIElements;
 
 public class VoiceRecognition : MonoBehaviour
 {
@@ -13,6 +13,13 @@ public class VoiceRecognition : MonoBehaviour
     private KeywordRecognizer keyword;
     private Dictionary<string, Action> actions = new Dictionary<string, Action>();
     private GameObject square;
+    private Button toggle;
+
+
+
+
+
+
 
     void Start()
     {
@@ -22,6 +29,12 @@ public class VoiceRecognition : MonoBehaviour
         actions.Add("green", ChangeGreen);
         actions.Add("blue", ChangeBlue);
         actions.Add("yellow", ChangeYellow);
+        actions.Add("black", ChangeBlack);
+        actions.Add("light Blue", Changelightblue);
+        actions.Add("pink", Changepink);
+        actions.Add("gray", ChangeGray);
+
+
 
         keyword = new KeywordRecognizer(actions.Keys.ToArray());
         keyword.OnPhraseRecognized += RecognizedSpeech;
@@ -52,6 +65,26 @@ public class VoiceRecognition : MonoBehaviour
     private void ChangeYellow()
     {
         square.GetComponent<Renderer>().material.color = Color.yellow;
+    }
+
+    private void ChangeBlack()
+    {
+        square.GetComponent<Renderer>().material.color = Color.black;
+    }
+    private void ChangeGray()
+    {
+        square.GetComponent<Renderer>().material.color = Color.gray;
+
+    }
+    private void Changelightblue()
+    {
+        square.GetComponent<Renderer>().material.color = Color.cyan;
+
+    }
+    private void Changepink()
+    {
+        square.GetComponent<Renderer>().material.color = Color.magenta;
+
     }
 
 }

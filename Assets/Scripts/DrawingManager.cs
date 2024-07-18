@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,9 @@ public class DrawingManager : MonoBehaviour
     private Texture2D texture;
     private bool isErasing = false;
     private UndoRedoManager undoRedoManager;
+    public NoseAndSmileDetector noseAndSmileDetector; // Reference to the NoseAndSmileDetector
+    public Image cursorImage; // Reference to the cursor image
+    public Boolean s = false;
 
     void Start()
     {
@@ -18,6 +22,12 @@ public class DrawingManager : MonoBehaviour
         if (undoRedoManager != null)
         {
             undoRedoManager.SaveInitialState(texture);
+        }
+
+        // Ensure cursor image is visible at the start
+        if (cursorImage != null)
+        {
+            cursorImage.enabled = true;
         }
     }
 
@@ -39,31 +49,40 @@ public class DrawingManager : MonoBehaviour
 
     void Update()
     {
-        HandleDrawing();
-    }
-
-    void HandleDrawing()
-    {
-        if (Input.GetMouseButtonDown(0))
+       if (s == true)
         {
-            if (undoRedoManager != null)
-            {
-                undoRedoManager.SaveState(texture);
-            }
+
+            DrawWithNose();
+
         }
 
-        if (Input.GetMouseButton(0))
-        {
-            Vector2 localPoint;
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(drawingCanvas.rectTransform, Input.mousePosition, null, out localPoint))
-            {
-                int x = (int)(localPoint.x + drawingCanvas.rectTransform.rect.width / 2);
-                int y = (int)(localPoint.y + drawingCanvas.rectTransform.rect.height / 2);
 
-                if (x >= 0 && x < texture.width && y >= 0 && y < texture.height)
-                {
-                    DrawBrush(x, y);
-                }
+        UpdateCursorPosition();
+    }
+
+
+
+
+    void DrawWithNose()
+    {
+        if (noseAndSmileDetector == null)
+        {
+            Debug.LogError("NoseAndSmileDetector is not assigned");
+            return;
+        }
+
+        Vector2 localPoint;
+        Vector2 nosePosition = noseAndSmileDetector.GetNosePosition();
+        Vector2 screenPos = new Vector2(Screen.width - nosePosition.x, Screen.height - nosePosition.y); // Invert X and Y for correct screen coordinates
+
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(drawingCanvas.rectTransform, screenPos, null, out localPoint))
+        {
+            int x = (int)(localPoint.x + drawingCanvas.rectTransform.rect.width / 2);
+            int y = (int)(localPoint.y + drawingCanvas.rectTransform.rect.height / 2);
+
+            if (x >= 0 && x < texture.width && y >= 0 && y < texture.height)
+            {
+                DrawBrush(x, y);
             }
         }
     }
@@ -85,6 +104,19 @@ public class DrawingManager : MonoBehaviour
             }
         }
         texture.Apply();
+    }
+
+    void UpdateCursorPosition()
+    {
+        if (noseAndSmileDetector == null || cursorImage == null)
+        {
+            return;
+        }
+
+        Vector2 nosePosition = noseAndSmileDetector.GetNosePosition();
+        Vector2 screenPos = new Vector2(nosePosition.x, Screen.height - nosePosition.y); // Invert Y for correct screen coordinates
+
+        cursorImage.rectTransform.position = screenPos;
     }
 
     public void ToggleEraser(bool erasing)
@@ -120,5 +152,17 @@ public class DrawingManager : MonoBehaviour
             rt.sizeDelta = new Vector2(1700, 850); // Landscape size
         }
         InitializeTexture(); // Reinitialize texture with new size
+    }
+
+
+
+
+    public void setToggle()
+    {
+        s = true;
+    }
+    public void setToggletofalse()
+    {
+        s = false;
     }
 }
