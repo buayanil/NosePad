@@ -1,3 +1,0 @@
-# NosePad
-
-# Brandon
