@@ -67,6 +67,7 @@ public class SpeechRecognitionTest : MonoBehaviour
         else
         {
             Debug.LogWarning("Microphone is not recording.");
+
         }
     }
 
@@ -122,9 +123,9 @@ public class SpeechRecognitionTest : MonoBehaviour
         {
             FindObjectOfType<DrawingManager>().ChangeBrushColor(Color.gray);
         }
-        else if (response.ToLower().Contains("undo"))
+        else if (response.ToLower().Contains("save"))
         {
-            FindObjectOfType<UndoRedoManager>().Undo();
+            FindObjectOfType<DrawingManager>().save();
         }
         else if (response.ToLower().Contains("small brush"))
         {
@@ -142,6 +143,13 @@ public class SpeechRecognitionTest : MonoBehaviour
         else if (response.ToLower().Contains("stop"))
         {
             FindObjectOfType<DrawingManager>().setToggletofalse();
+        }
+        else if (response.ToLower().Contains("big brush red"))
+        {
+            FindObjectOfType<DrawingManager>().ChangeBrushSize(120);
+
+            FindObjectOfType<DrawingManager>().ChangeBrushColor(Color.red);
+
         }
 
 

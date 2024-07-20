@@ -11,6 +11,7 @@ public class DrawingManager : MonoBehaviour
     private Texture2D texture;
     private bool isErasing = false;
     private UndoRedoManager undoRedoManager;
+    public SaveManager saveManager;
     public NoseAndSmileDetector noseAndSmileDetector; // Reference to the NoseAndSmileDetector
     public Image cursorImage; // Reference to the cursor image
     public Boolean s = false;
@@ -154,7 +155,9 @@ public class DrawingManager : MonoBehaviour
         InitializeTexture(); // Reinitialize texture with new size
     }
 
-
+    public void save(){
+        saveManager.SaveTexture(texture, "mydrawing.png");
+    }
 
 
     public void setToggle()
