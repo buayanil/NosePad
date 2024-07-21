@@ -22,7 +22,7 @@ public class DrawingManager : MonoBehaviour
         undoRedoManager = FindObjectOfType<UndoRedoManager>();
         if (undoRedoManager != null)
         {
-            undoRedoManager.SaveInitialState(texture);
+            undoRedoManager.SaveStateOnStop(texture);
         }
 
         // Ensure cursor image is visible at the start
@@ -52,17 +52,11 @@ public class DrawingManager : MonoBehaviour
     {
        if (s == true)
         {
-
             DrawWithNose();
-
         }
-
 
         UpdateCursorPosition();
     }
-
-
-
 
     void DrawWithNose()
     {
@@ -159,13 +153,17 @@ public class DrawingManager : MonoBehaviour
         saveManager.SaveTexture(texture, "mydrawing.png");
     }
 
-
     public void setToggle()
     {
         s = true;
     }
+
     public void setToggletofalse()
     {
+        if (undoRedoManager != null)
+        {
+            undoRedoManager.SaveStateOnStop(texture);
+        }
         s = false;
     }
 }

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 public class UndoRedoManager : MonoBehaviour
 {
-    private Stack<Color[]> undoStack = new Stack<Color[]>();
-    private Stack<Color[]> redoStack = new Stack<Color[]>();
+    private Stack<Texture2D> stateStack = new Stack<Texture2D>();
     private DrawingManager drawingManager;
 
     void Start()
@@ -12,18 +11,22 @@ public class UndoRedoManager : MonoBehaviour
         drawingManager = FindObjectOfType<DrawingManager>();
     }
 
-    public void SaveInitialState(Texture2D texture)
-    {
-        undoStack.Push((Color[])texture.GetPixels().Clone());
-    }
-
-    public void SaveState(Texture2D texture)
+    public void SaveStateOnStop(Texture2D texture)
     {
         if (drawingManager != null)
         {
-            undoStack.Push((Color[])texture.GetPixels().Clone());
-            redoStack.Clear();  // Clear the redo stack
-            Debug.Log("State Saved");
+            // Clone the texture and push it onto the stack
+            Texture2D textureClone = new Texture2D(texture.width, texture.height, texture.format, false);
+            textureClone.SetPixels(texture.GetPixels());
+            textureClone.Apply();
+            stateStack.Push(textureClone);
+            Debug.Log("State Saved on Stop Command");
+
+            // Keep only the last two states
+            if (stateStack.Count > 2)
+            {
+                stateStack = new Stack<Texture2D>(stateStack.ToArray()[..2]);
+            }
         }
         else
         {
@@ -33,11 +36,15 @@ public class UndoRedoManager : MonoBehaviour
 
     public void Undo()
     {
-        if (undoStack.Count > 1)  // Keep initial state
+        if (stateStack.Count > 1)
         {
-            redoStack.Push((Color[])drawingManager.GetTexture().GetPixels().Clone());
-            drawingManager.GetTexture().SetPixels(undoStack.Pop());
-            drawingManager.GetTexture().Apply();
+            stateStack.Pop(); // Remove the current state
+            Texture2D lastState = stateStack.Peek(); // Get the previous state
+
+            // Apply the lastState texture to the current texture
+            Texture2D currentTexture = drawingManager.GetTexture();
+            currentTexture.SetPixels(lastState.GetPixels());
+            currentTexture.Apply();
             Debug.Log("Undo Performed");
         }
         else
