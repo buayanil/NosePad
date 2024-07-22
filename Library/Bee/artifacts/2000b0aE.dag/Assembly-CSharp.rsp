@@ -757,6 +757,7 @@
 "Assets/Scripts/CanvasController.cs"
 "Assets/Scripts/ChangeScene.cs"
 "Assets/Scripts/ColourChange.cs"
+"Assets/Scripts/CommandPopupManager.cs"
 "Assets/Scripts/DrawingManager.cs"
 "Assets/Scripts/SaveManager.cs"
 "Assets/Scripts/SpeechManager.cs"

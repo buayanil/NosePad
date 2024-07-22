@@ -148,6 +148,14 @@ public class SpeechRecognitionTest : MonoBehaviour
         {
             FindObjectOfType<UndoRedoManager>().Undo();
         }
+        else if (response.ToLower().Contains("commands") || response.ToLower().Contains("list"))
+        {
+            FindObjectOfType<CommandPopupManager>().ShowCommands();
+        }
+        else if (response.ToLower().Contains("close"))
+        {
+            FindObjectOfType<CommandPopupManager>().HideCommands();
+        }
         else if (response.ToLower().Contains("big brush red"))
         {
             FindObjectOfType<DrawingManager>().ChangeBrushSize(120);
