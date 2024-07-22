@@ -90,7 +90,6 @@
     <Compile Include="Assets\OpenCV+Unity\Assets\Scripts\OpenCvSharp\modules\features2d\Enum\AKAZEDescriptorType.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\OpenCV+Unity\Assets\Scripts\OpenCvSharp\modules\core\Struct\Point3d.cs" />
-    <Compile Include="Assets\Scripts\CanvasController.cs" />
     <Compile Include="Assets\OpenCV+Unity\Assets\Scripts\OpenCvSharp\modules\core\Mat\MatOfDouble3.cs" />
     <Compile Include="Assets\OpenCV+Unity\Demo\Scripts\DataStabilizer.cs" />
     <Compile Include="Assets\OpenCV+Unity\Assets\Scripts\OpenCvSharp\modules\core\Struct\Size2d.cs" />
@@ -394,7 +393,6 @@
     <Compile Include="Assets\OpenCV+Unity\Assets\Scripts\OpenCvSharp\modules\objdetect\HistogramNormType.cs" />
     <Compile Include="Assets\OpenCV+Unity\Assets\Scripts\OpenCvSharp\modules\video\DenseOpticalFlow.cs" />
     <Compile Include="Assets\OpenCV+Unity\Assets\Scripts\OpenCvSharp\modules\imgcodecs\Enum\ConvertImageModes.cs" />
-    <Compile Include="Assets\Scripts\VoiceRecognition.cs" />
     <Compile Include="Assets\OpenCV+Unity\Assets\Scripts\OpenCvSharp\modules\imgproc\Enum\DistanceMaskSize.cs" />
     <Compile Include="Assets\OpenCV+Unity\Demo\Scripts\DetectedFace.cs" />
     <Compile Include="Assets\OpenCV+Unity\Assets\Scripts\OpenCvSharp\PInvoke\shape\NativeMethods_shape_ShapeDistanceExtractor.cs" />

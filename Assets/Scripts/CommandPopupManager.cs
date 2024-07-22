@@ -48,7 +48,9 @@ public class CommandPopupManager : MonoBehaviour
                "- small brush: Change to a small brush size\n" +
                "- big brush: Change to a big brush size\n" +
                "- paint: Start painting\n" +
-               "- stop paint: Stop painting\n" +
+               "- stop: Stop painting\n" +
+               "- portrait: Set the canvas to portrait\n" +
+               "- landscape: Set the canvas to landscape\n" +
                "- big brush red: Change to a big red brush\n";
     }
 }
