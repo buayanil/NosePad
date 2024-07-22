@@ -158,11 +158,11 @@ public class SpeechRecognitionTest : MonoBehaviour
         }
         else if (response.ToLower().Contains("portrait"))
         {
-            FindObjectOfType<CanvasController>().SetCanvasOrientation("portrait");
+            FindObjectOfType<DrawingManager>().SetCanvasOrientation(true);
         }
         else if (response.ToLower().Contains("landscape"))
         {
-            FindObjectOfType<CanvasController>().SetCanvasOrientation("landscape");
+            FindObjectOfType<DrawingManager>().SetCanvasOrientation(false);
         }
         else if (response.ToLower().Contains("big brush red"))
         {
