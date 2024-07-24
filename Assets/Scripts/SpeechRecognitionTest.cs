@@ -368,13 +368,17 @@ public class SpeechRecognitionTest : MonoBehaviour
         {
             FindObjectOfType<DrawingManager>().setToggletofalse();
         }
-        else if (response.ToLower().Contains("undo"))
+        else if (response.ToLower().Contains("hello"))
         {
             FindObjectOfType<UndoRedoManager>().Undo();
         }
         else if (response.ToLower().Contains("commands") || response.ToLower().Contains("list"))
         {
             FindObjectOfType<CommandPopupManager>().ShowCommands();
+        }
+        else if (response.ToLower().Contains("erase") || response.ToLower().Contains("wipe"))
+        {
+            FindObjectOfType<DrawingManager>().ChangeBrushColor(Color.white);
         }
         else if (response.ToLower().Contains("close"))
         {
