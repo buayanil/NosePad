@@ -360,13 +360,16 @@ public class SpeechRecognitionTest : MonoBehaviour
             FindObjectOfType<DrawingManager>().ChangeBrushSize(9);
         }
 
-        else if (response.ToLower().Contains("paint"))
+        else if (response.ToLower().Contains("draw"))
         {
             FindObjectOfType<DrawingManager>().setToggle();
+
         }
         else if (response.ToLower().Contains("stop"))
         {
             FindObjectOfType<DrawingManager>().setToggletofalse();
+            FindObjectOfType<DrawingManager>().ChangeBrushColor(Color.black);
+
         }
         else if (response.ToLower().Contains("hello"))
         {
@@ -379,6 +382,10 @@ public class SpeechRecognitionTest : MonoBehaviour
         else if (response.ToLower().Contains("erase") || response.ToLower().Contains("wipe"))
         {
             FindObjectOfType<DrawingManager>().ChangeBrushColor(Color.white);
+            FindObjectOfType<DrawingManager>().setToggle();
+            FindObjectOfType<DrawingManager>().ChangeBrushSize(12);
+
+
         }
         else if (response.ToLower().Contains("close"))
         {
