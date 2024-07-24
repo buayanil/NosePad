@@ -15,6 +15,9 @@ public class DrawingManager : MonoBehaviour
     public NoseAndSmileDetector noseAndSmileDetector; // Reference to the NoseAndSmileDetector
     public Image cursorImage; // Reference to the cursor image
     public Boolean s = false;
+    private Vector2? previousNosePosition = null;
+    private Vector2? previousCursorPosition = null;
+    private float movementThreshold = 20.0f; // Minimum distance to move the cursor
 
     void Start()
     {
@@ -50,7 +53,7 @@ public class DrawingManager : MonoBehaviour
 
     void Update()
     {
-       if (s == true)
+        if (s == true)
         {
             DrawWithNose();
         }
@@ -77,17 +80,40 @@ public class DrawingManager : MonoBehaviour
 
             if (x >= 0 && x < texture.width && y >= 0 && y < texture.height)
             {
-                DrawBrush(x, y);
+                if (previousNosePosition.HasValue)
+                {
+                    // Check if the movement exceeds the threshold
+                    if (Vector2.Distance(new Vector2(x, y), previousNosePosition.Value) > movementThreshold)
+                    {
+                        DrawLine((int)previousNosePosition.Value.x, (int)previousNosePosition.Value.y, x, y);
+                        previousNosePosition = new Vector2(x, y);
+                    }
+                }
+                else
+                {
+                    DrawBrush(x, y);
+                    previousNosePosition = new Vector2(x, y);
+                }
             }
+            else
+            {
+                previousNosePosition = null;
+            }
+        }
+        else
+        {
+            previousNosePosition = null;
         }
     }
 
     void DrawBrush(int x, int y)
     {
         Color color = isErasing ? eraseColor : drawColor;
-        for (int i = -brushSize; i <= brushSize; i++)
+        int brushRadius = brushSize / 2;
+
+        for (int i = -brushRadius; i <= brushRadius; i++)
         {
-            for (int j = -brushSize; j <= brushSize; j++)
+            for (int j = -brushRadius; j <= brushRadius; j++)
             {
                 int drawX = x + i;
                 int drawY = y + j;
@@ -101,6 +127,39 @@ public class DrawingManager : MonoBehaviour
         texture.Apply();
     }
 
+    void DrawLine(int x0, int y0, int x1, int y1)
+    {
+        int dx = Mathf.Abs(x1 - x0);
+        int dy = Mathf.Abs(y1 - y0);
+        int sx = x0 < x1 ? 1 : -1;
+        int sy = y0 < y1 ? 1 : -1;
+        int err = dx - dy;
+        int e2;
+
+        Color color = isErasing ? eraseColor : drawColor;
+
+        while (true)
+        {
+            DrawBrush(x0, y0);
+
+            if (x0 == x1 && y0 == y1) break;
+
+            e2 = 2 * err;
+            if (e2 > -dy)
+            {
+                err -= dy;
+                x0 += sx;
+            }
+            if (e2 < dx)
+            {
+                err += dx;
+                y0 += sy;
+            }
+        }
+
+        texture.Apply();
+    }
+
     void UpdateCursorPosition()
     {
         if (noseAndSmileDetector == null || cursorImage == null)
@@ -109,9 +168,13 @@ public class DrawingManager : MonoBehaviour
         }
 
         Vector2 nosePosition = noseAndSmileDetector.GetNosePosition();
-        Vector2 screenPos = new Vector2(nosePosition.x, Screen.height - nosePosition.y); // Invert Y for correct screen coordinates
+        Vector2 screenPos = new Vector2(Screen.width - nosePosition.x, Screen.height - nosePosition.y); // Invert Y for correct screen coordinates
 
-        cursorImage.rectTransform.position = screenPos;
+        if (!previousCursorPosition.HasValue || Vector2.Distance(screenPos, previousCursorPosition.Value) > movementThreshold)
+        {
+            cursorImage.rectTransform.position = screenPos;
+            previousCursorPosition = screenPos;
+        }
     }
 
     public void ToggleEraser(bool erasing)
@@ -149,13 +212,15 @@ public class DrawingManager : MonoBehaviour
         InitializeTexture(); // Reinitialize texture with new size
     }
 
-    public void save(){
+    public void save()
+    {
         saveManager.SaveTexture(texture, "mydrawing.png");
     }
 
     public void setToggle()
     {
         s = true;
+        previousNosePosition = null; // Reset the previous position to start a new line
     }
 
     public void setToggletofalse()
@@ -165,5 +230,6 @@ public class DrawingManager : MonoBehaviour
             undoRedoManager.SaveStateOnStop(texture);
         }
         s = false;
+        previousNosePosition = null; // Reset the previous position when stopping drawing
     }
 }

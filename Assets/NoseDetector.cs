@@ -4,6 +4,7 @@ using UnityEngine;
 using OpenCvSharp;
 using System.IO;
 using UnityEngine.UI;
+using System.Net.Security;
 
 public class NoseAndSmileDetector : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class NoseAndSmileDetector : MonoBehaviour
     public Vector2 noseCursorPosition;
     public SpeechRecognitionTest speechRecognitionTest; // Reference to the SpeechRecognitionTest script
     public Image noseCursorImage; // Reference to the UI image representing the cursor
+    public float scalingFactor = 5.0f; // Scaling factor to amplify head movements
 
     void Start()
     {
@@ -103,9 +105,22 @@ public class NoseAndSmileDetector : MonoBehaviour
                     nosePointsBuffer.RemoveAt(0);
                 }
 
-                // Use the nose points for cursor tracking
-                noseCursorPosition = new Vector2(myNose.X + myNose.Width / 2, myNose.Y + myNose.Height / 2);
-                Debug.Log("Nose Cursor Position: " + noseCursorPosition);
+                
+
+                    Vector2 rawCursorPosition1 = new Vector2(myNose.X + myNose.Width / 2, myNose.Y + myNose.Height / 2);
+                    noseCursorPosition = (rawCursorPosition1 - new Vector2(Screen.width / 2 - 200, Screen.height / 2)) * scalingFactor + new Vector2(Screen.width / 2, Screen.height / 2);
+
+                
+
+               
+
+                    Vector2 rawCursorPosition5 = new Vector2(myNose.X + myNose.Width / 2, myNose.Y + myNose.Height / 2);
+                    noseCursorPosition = (rawCursorPosition5 - new Vector2(Screen.width / 2 - 300, Screen.height / 2 -50)) * scalingFactor + new Vector2(Screen.width / 2, Screen.height / 2);
+
+                
+            
+
+
 
                 if (noseCursorImage != null)
                 {
@@ -118,6 +133,21 @@ public class NoseAndSmileDetector : MonoBehaviour
                     initialNosePoints = GetAveragedNosePoints();
                     initialNosePointsSet = true;
                 }
+
+                if(scalingFactor ==1)
+                {
+                    myFace.X = Mathf.Clamp((int)rawCursorPosition1.x - myFace.Width / 2, 0, frame.Width - myFace.Width);
+                    myFace.Y = Mathf.Clamp((int)rawCursorPosition1.y - myFace.Height / 2, 0, frame.Height - myFace.Height);
+
+                }
+                if (scalingFactor == 5)
+                {
+                    myFace.X = Mathf.Clamp((int)rawCursorPosition5.x - myFace.Width / 2, 0, frame.Width - myFace.Width);
+                    myFace.Y = Mathf.Clamp((int)rawCursorPosition5.y - myFace.Height / 2, 0, frame.Height - myFace.Height);
+
+                }
+
+
             }
             else
             {
@@ -127,10 +157,9 @@ public class NoseAndSmileDetector : MonoBehaviour
             isSmiling = false;
             foreach (var smile in smiles)
             {
-                Debug.Log($"Smile detected at ({smile.X}, {smile.Y}) with size ({smile.Width}x{smile.Height})");
+                // Debug.Log($"Smile detected at ({smile.X}, {smile.Y}) with size ({smile.Width}x{smile.Height})");
                 if (smile.Width > myFace.Width / 3 && smile.Height > myFace.Height / 4 && Time.time >= lastClickTime + cooldownTime)
                 {
-                    Debug.Log("Smile detected! Triggering speech recognition.");
                     lastClickTime = Time.time;
                     isSmiling = true;
 
@@ -140,7 +169,6 @@ public class NoseAndSmileDetector : MonoBehaviour
                     }
                     else
                     {
-                        Debug.LogError("SpeechRecognitionTest reference is not set.");
                     }
                     break; // Exit the loop after the first valid smile detection
                 }
