@@ -9,7 +9,7 @@
       <File FileName="Assets/Scripts/SaveManager.cs" />
       <File FileName="Assets/Scripts/CommandPopupManager.cs" />
       <File FileName="Assets/Scripts/ColourChange.cs" />
-      <File FileName="Assets/Scripts/ChangeScene.cs" Line="14" Column="1" />
+      <File FileName="Assets/Scripts/ChangeScene.cs" />
       <File FileName="Assets/Scripts/BrushController1.cs" />
       <File FileName="Assets/Scripts/BrushController.cs" />
       <File FileName="Assets/FaceDetector.cs" />
